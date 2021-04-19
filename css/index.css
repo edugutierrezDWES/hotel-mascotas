@@ -1,0 +1,21 @@
+
+.nav-item:hover{
+    background-color: #adacb5;
+}
+
+.nav-link:hover{
+    color: white !important;
+}
+.col-sm-4{	
+	background-color: white;
+}
+body{	
+	background-color:#d9bdc5;	
+}
+nav{
+	position:relative;	
+	margin-top:-70px;
+}
+footer{
+	background-color:#699cc4;
+}
