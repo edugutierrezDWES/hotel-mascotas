@@ -12,7 +12,7 @@ const getClientes = async () => {
     },
   };
   try {
-    let res = await fetch("./api_clientes.php", send);
+    let res = await fetch("./api/api_clientes.php", send);
     let data = await res.json();
     mostrar(data);
   } catch (error) {
@@ -152,7 +152,7 @@ const deleteClient = async (id) => {
     },
   };
   try {
-    let res = await fetch(`/api_clientes.php?id_usuario=${id}`, send);
+    let res = await fetch(`./api/api_clientes.php?id_usuario=${id}`, send);
     let data = await res.json();
     mostrar(data);
   } catch (error) {
@@ -168,7 +168,7 @@ const getClient = async (id) => {
     },
   };
   try {
-    let res = await fetch(`/api_clientes.php?id_usuario=${id}`, send);
+    let res = await fetch(`./api/api_clientes.php?id_usuario=${id}`, send);
     let data = await res.json();
     console.log("gliente: ", data);
   } catch (error) {
@@ -182,4 +182,8 @@ const volver = () =>{
       window.location.href = "/hotelmascotas"
   })
 }
+
+
+
+
 

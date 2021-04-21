@@ -13,10 +13,13 @@ switch($_SERVER['REQUEST_METHOD']){
         break;
 
     case 'POST':
+    
         $mascota = json_decode(file_get_contents('php://input'), true);
         $respuesta = saveMascota($mascota);
         echo json_encode($respuesta);
         break;
+
+
             
     default:
         $respuesta = array("message"=>"No se han encontrado clientes");

@@ -13,6 +13,8 @@ switch($_SERVER['REQUEST_METHOD']){
         $respuesta = saveUser($usuario);
         echo json_encode($respuesta);
         break;
+
+
             
     default:
         $respuesta = array("message"=>"No se han encontrado clientes");

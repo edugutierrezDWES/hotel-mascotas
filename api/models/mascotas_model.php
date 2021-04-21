@@ -18,7 +18,7 @@ function getAllMascotas($id_usuario) {
 function saveMascota($mascota) {
 
     $id = uniqid("id", true);
-    $id_usuario = 'id607fcd0771c8a8.85856979';
+    $id_usuario = 'id608091a07dc737.78829314';
     global $conexion;
 	try {
 		$conexion->beginTransaction();

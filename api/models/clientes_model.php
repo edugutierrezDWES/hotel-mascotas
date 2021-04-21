@@ -18,7 +18,7 @@ function saveUser($usuario) {
 
     $id = uniqid("id", true);
     $password = password_hash($usuario["pass"], PASSWORD_DEFAULT);
-    $fecha=date("Y-m-d");
+    $fecha = date("Y-m-d");
     global $conexion;
 	try {
 		$conexion->beginTransaction();

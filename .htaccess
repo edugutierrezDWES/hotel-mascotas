@@ -2,4 +2,5 @@ Options +FollowSymLinks
 RewriteEngine On
 
 RewriteRule users clientes.html
-RewriteRule altamascotas mascotas.html
+RewriteRule altamascotas mascotas.php
+RewriteRule home home.php

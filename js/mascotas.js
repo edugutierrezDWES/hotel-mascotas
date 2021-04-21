@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+
     getMascotas()
     registrar()
     volver()
@@ -83,7 +85,7 @@ const getMascotas = async () => {
     },
   };
   try {
-    let res = await fetch(`./api_mascotas.php?id_usuario=${id}`, send);
+    let res = await fetch(`./api/api_mascotas.php?id_usuario=${id}`, send);
     let data = await res.json();
     console.log(data)
   } catch (error) {
@@ -101,7 +103,7 @@ const saveMascota = async (mascota) => {
     body: JSON.stringify(mascota)
   };
   try {
-    let res = await fetch('./api_mascotas.php', send);
+    let res = await fetch('./api/api_mascotas.php', send);
     let data = await res.json()
     return data;
     
@@ -109,7 +111,5 @@ const saveMascota = async (mascota) => {
   } catch (error) {
     console.log("Ha ocurrido el siguiente error " + error);
   }
-
-   return
 
 }
