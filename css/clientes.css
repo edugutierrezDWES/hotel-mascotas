@@ -1,0 +1,10 @@
+form {
+    display: none;
+} 
+label {
+    font-weight: 700;
+}
+
+.alert{
+    display: none;
+}

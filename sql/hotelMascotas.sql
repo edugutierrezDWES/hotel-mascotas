@@ -38,7 +38,7 @@ CREATE TABLE `usuario`
     `email` VARCHAR(160) NOT NULL,
     `pass` VARCHAR(256) NOT NULL,
     `fecha_alta` DATE NOT NULL,
-    `fecha_bajal` DATE NOT NULL,
+    `fecha_baja` DATE,
     `rol` ENUM('cliente','empleado', 'admin') NOT NULL,
     CONSTRAINT `PK_usuario` PRIMARY KEY  (`id_usuario`)
 );
