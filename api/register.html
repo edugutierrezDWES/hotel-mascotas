@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-select.css" rel="stylesheet">
+<link href="css/bootstrap-icons.css" rel="stylesheet">
+
+<!-- My CSS -->
+<!-- <link href="css/styles.css" rel="stylesheet"> -->
+<title>Registro</title>
+</head>
+<body class="bg_login" >
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6 col-lg-4 text-center"><img class="img-responsive mar_t15" src="img/logo_transp.png" alt="logo scarp"/>
+
+      <div class="login">
+      <form role="form" method="POST" class="form-horizontal" action="clientes" novalidate>
+			<h2 class="mar_b20 ">Registro</h2>
+        <div class="form-group">
+
+          <div class="row form-group">
+            <div class="col-sm-2 ">
+              <label for="Nombre" class="control-label"><i class="bi bi-person-fill font_26"></i></label>
+            </div>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Nombre" value="" name="nombre" data-val-required="Nombre is mandatory" data-val="true" class="form-control form-control-login">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-sm-2 ">
+              <label for="Apellidos" class="col-xs-2 control-label"><i class="bi bi-person-fill font_26"></i></label>
+            </div>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Apellidos" name="apellidos"data-val-required="Apellidos is mandatory" data-val="true" class="form-control form-control-login">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-sm-2 ">
+              <label for="Email" class="col-xs-2 control-label"><i class="bi bi-envelope-fill font_26"></i></i></label>
+            </div>
+            <div class="col-sm-10">
+              <input type="email" placeholder="Email" name="email" data-val-required="Email is mandatory" data-val="true" class="form-control form-control-login">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-sm-2 ">
+              <label for="Contraseña" class="col-xs-2 control-label"><i class="bi bi-unlock-fill font_26"></i></label>
+            </div>
+            <div class="col-sm-10">
+              <input type="password" placeholder="Contraseña"" name="pass" data-val-required="Password is mandatory" data-val="true" class="form-control form-control-login">
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-sm-2 ">
+              <label for="Confirmar Contraseña" class="col-xs-2 control-label"><i class="bi bi-unlock-fill font_26"></i></label>
+            </div>
+            <div class="col-sm-10">
+              <input type="password" placeholder="Confirmar Contraseña"" name="confirmpass" data-val-required="Confirm Password is mandatory" data-val="true" class="form-control form-control-login">
+            </div>
+          </div>
+          <div class="text-center form-group">
+            <input type="submit" class="btn btn_orange bt_login col-12" value="Registrar">
+          </div>
+        </div>
+        <div class="form-group mar_t40 ">
+        <div class="mar_t10 text-center">
+        <form role="form" method="post"  action="Register.html" novalidate>
+          <a class="color_white" href="login" >Login</a>
+          <i class="bi bi-slash"></i>
+          <a class="color_white" href="Change_Password.html" >Forgot password?</a>
+        </form>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class=" text-center"> <a data-toggle="modal" role="button" href="#modal" class="color_white font_12">Terms, conditions of use and privacy policy</a> </div>
+    </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+<!--ventana modal Terms-->
+<div class="modal fade" id="modal" role="dialog" aria-hidden="true">
+<div class="modal-dialog width_600">
+<div class="modal-content">
+  <div class="modal-header"> 
+        <h3 class="modal-title" id="myModalLabel">Terms, conditions of use and privacy policy </h3>
+        <a href="#" title="Close modal window" class="close" data-dismiss="modal" aria-hidden="true"> <i class="bi bi-x-circle"></i></a>
+		</div>
+  <div class="modal-body">
+    <div class= "panel panel-default">
+      <div class ="panel-body">
+        <h3 class="dotted">Terms</h3>
+        <label>Lorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sit</label>
+        <h3 class="dotted">Conditions of use</h3>
+        <label>Lorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sit</label>
+        <h3 class="dotted">Privacy policy</h3>
+        <label>Lorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sitLorem ipsum dolor sit</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--fin ventana modal--> 
+
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="js/jquery-3.6.0.min.js"></script> 
+<script src="js/bootstrap.bundle.min.js"></script> 
+<script src="js/bootstrap-select.js"></script>
+</body>
+</html>

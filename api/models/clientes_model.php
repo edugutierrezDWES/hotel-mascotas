@@ -35,7 +35,10 @@ function saveUser($usuario) {
         $insertarUsuario->execute();
 
         $conexion->commit();
-        return array("created"=>true);
+		$usuario["id_usuario"]=$id;
+		$usuario["fecha_alta"]=$fecha;
+
+        return $usuario;
 
 	} catch (PDOException $ex) {
 		return array("error"=>$ex->getMessage());

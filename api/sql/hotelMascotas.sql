@@ -82,7 +82,6 @@ ALTER TABLE reserva_mascota ADD CONSTRAINT FK_ReservaMascotaID FOREIGN KEY (id_m
 
 ALTER TABLE reserva_mascota ADD CONSTRAINT FK_MascotaReservaID FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-
 ALTER TABLE reserva_habitacion ADD CONSTRAINT FK_ReservaHabitacionID FOREIGN KEY (id_hab) REFERENCES habitacion(id_hab) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE reserva_habitacion ADD CONSTRAINT FK_HabitacionReservaID FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva) ON DELETE NO ACTION ON UPDATE NO ACTION;
