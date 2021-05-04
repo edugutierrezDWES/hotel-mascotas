@@ -511,6 +511,13 @@ h3.login_title {
 }*/
 /*loading screen*/
 
+.mensaje-error {
+
+    font-size: small;
+    color: #be1616 !important;
+
+}
+
 #loading {
 	display: block;
 	position: absolute;
@@ -1938,3 +1945,4 @@ _:-ms-lang(x), .ie10up { property: value; }
 button, button:focus, button:active {
   outline: none;
 }
+

@@ -1,10 +1,14 @@
 Options +FollowSymLinks
 RewriteEngine On
 
-RewriteRule clientes api/api_clientes.php
-RewriteRule cliente/borrar/([a-zA-Z0-9.]+)$ api/api_clientes.php?id_delete=$1 [QSA,L]
-RewriteRule cliente/editar/([a-zA-Z0-9.]+)$ api/api_clientes.php?id_edit=$1 [QSA,L]
-RewriteRule cliente/form/editar/([a-zA-Z0-9.]+)$ api/api_clientes.php?id_editform=$1 [QSA,L]
-RewriteRule cliente/([0-9]+)$ api/api_clientes.php?id_get=$1 [QSA,L]
-RewriteRule login api/login.html
-RewriteRule register api/register.html
+RewriteRule clientes api/usuarios.php
+RewriteRule cliente/borrar/([a-zA-Z0-9.]+)$ api/usuarios.php?id_delete=$1 [QSA,L]
+RewriteRule cliente/editar/([a-zA-Z0-9.]+)$ api/usuarios.php?id_edit=$1 [QSA,L]
+RewriteRule cliente/form/editar/([a-zA-Z0-9.]+)$ api/usuarios.php?id_editform=$1 [QSA,L]
+RewriteRule cliente/([0-9]+)$ api/usuarios.php?id_get=$1 [QSA,L]
+RewriteRule login api/login.php
+RewriteRule logout api/login.php?cerrar=true
+RewriteRule register api/register.php
+RewriteRule sadpuppy api/error_editar_view.php
+RewriteRule home api/home.php
+RewriteRule /editar api/home.php?edit=true

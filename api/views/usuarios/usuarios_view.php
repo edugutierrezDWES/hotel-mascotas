@@ -45,6 +45,6 @@
           </tbody>
         </table>
     
-        <a href="/" class="btn btn-success volver">Volver</a>
+        <a href="/hotelmascotasmvc/home" class="btn btn-success volver">Volver</a>
   
  
