@@ -131,9 +131,9 @@ function obtener_Habitacion($dateEntrada, $dateSalida, $tipoHabitacion){
 		$consulta = $conexion->prepare("SELECT * FROM habitacion 
         WHERE tipo_Hab LIKE :tipoHabitacion AND id_hab NOT IN 
         (SELECT id_hab FROM reserva_habitacion WHERE id_reserva IN 
-        (SELECT id_reserva FROM reserva WHERE (fecha_inicio <= :dateEntrada AND :dateEntrada < fecha_final) 
-        OR (fecha_inicio < :dateSalida AND :dateSalida < fecha_final)
-        )) ");
+        (SELECT id_reserva FROM reserva WHERE ((fecha_inicio <= :dateEntrada AND :dateEntrada < fecha_final) 
+        OR (fecha_inicio < :dateSalida AND :dateSalida < fecha_final)) 
+        AND estado NOT LIKE 'abandonado' AND estado NOT LIKE 'finalizado' AND estado NOT LIKE 'cancelado')) ");
         $consulta->bindParam(':tipoHabitacion', $tipoHabitacion);
         $consulta->bindParam(':dateEntrada', $dateEntrada);
         $consulta->bindParam(':dateSalida', $dateSalida);
@@ -175,7 +175,16 @@ function relacion_Reserva_Habitacion($id_reserva, $id_habitacion){
 }
 
 function getAllMascotas($id_usuario) {
-
+    # Función 'relacion_Reserva_Habitacion'. 
+	# Parámetros: 
+	#   -$id_usuario
+	#
+	# Funcionalidad:
+	# obtiene las mascotas de un usuario
+	#
+	# Retorna: True en caso de que hizo correctamente / False si hubo algun error en el proceso.
+	#
+	#  Código por Edu Gutierrez
     global $conexion;
 
 	$consulta = $conexion->prepare("SELECT * FROM mascota WHERE id_usuario= :id_usuario");
