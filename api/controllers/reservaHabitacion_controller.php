@@ -30,6 +30,11 @@ try {
     if (count($arrayTipoHabitaciones)==0) 
         throw new Exception("No se han encontrado los tipos de habitaciones");
 
+    $arrayTipoServicios=getAllTipoServicio();
+    if (count($arrayTipoServicios)==0) 
+        throw new Exception("No se han encontrado los tipos de servicio");
+    
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {//Se obtiene los datos
         if (isset($_POST['reserva'])) {
 
@@ -56,7 +61,7 @@ try {
             $dateEntrada=date("Y-m-d",strtotime($datoEntrada));
             $dateSalida=date("Y-m-d", strtotime($datoSalida));
 
-            if($tipoReserva=='normal' || $tipoReserva=='vip' || $tipoReserva=='supervip'){
+
                 
                 if($hoy < $dateEntrada && $dateEntrada < $dateSalida){
                     $dteStart = new DateTime($dateEntrada);
@@ -67,45 +72,33 @@ try {
                     $diasDireferencia= $diferecia->days;//Esto da la diferencias entre dos fechas en dias
                     
 
-                    $precio_noche=0;
+                    $precio_noche_habitacion=0;
 
                     foreach ($arrayTipoHabitaciones as $Fila => $arrayTipo) {
-                        $tipo_Hab= utf8_encode ($arrayTipo['tipo_Hab']);
+                        $tipo_Hab= $arrayTipo['tipo_Hab'];
                         if($tipo_Hab == $tipoHabitacion)
-                            $precio_noche=$arrayTipo['precio_noche'];
-                            
+                            $precio_noche_habitacion=$arrayTipo['precio_noche'];
                     }
+                    $precio_noche_servicio=0;
+                    foreach ($arrayTipoServicios as $Fila => $arrayTipo) {
+                        $tipo_reserva= $arrayTipo['tipo'];
+                        if($tipo_reserva == $tipoReserva)
+                            $precio_noche_servicio=$arrayTipo['precio_noche'];
+                    }
+                    if($precio_noche_habitacion==0 || $precio_noche_servicio==0)
+                        throw new Exception("El tipo de habitacion o de servicio es incorrecta");
 
-                    $Precio_Total=0;
-                    switch ($tipoReserva) {
-                        case 'normal':
-                            $precio_servicio=9.99;
-                            $Precio_Total= $diasDireferencia * $precio_noche * $precio_servicio;
-                            break;
-                        case 'vip':
-                            $precio_servicio=20.99;
-                            $Precio_Total= $diasDireferencia * $precio_noche * $precio_servicio;
-                            break;
-                        case 'supervip':
-                            $precio_servicio=40.99;
-                            $Precio_Total= $diasDireferencia * $precio_noche * $precio_servicio;
-                            break;
-                        default:
-                            throw new Exception("Tipo de Servicio");
-                            break;
-                    }
+                    $Precio_Total= $diasDireferencia * ($precio_noche_habitacion + $precio_noche_servicio);
+
 
                     $hoy=date("Y-m-d H:i:s");
                     $correcto = controlador_reservaHabitacionMascotas($datoEntrada, $datoSalida ,$id_cliente, $tipoReserva, $mascotas, $dateEntrada, $dateSalida, $hoy,$tipoHabitacion, $Precio_Total);
                     $todo_Correcto="La reserva se ha creado correctamente";
                 }
                 else throw new Exception("Las fecha de entrada tiene que ser anterior a la fecha de salida y posterior a hoy");
-                
-            }
         }
     }  
 } catch (\Throwable $th) {
     $error_Mensaje = "Error: " . $th->getMessage();
 }
 require_once("../views/reservaHabitacion_view.php");
-?>
