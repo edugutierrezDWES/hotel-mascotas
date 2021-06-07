@@ -127,7 +127,6 @@ function relacion_Reserva_Mascota( $id_reserva, $id_mascota){
 
 function obtener_Habitacion($dateEntrada, $dateSalida, $tipoHabitacion){
     global $conexion;
-    
 		$consulta = $conexion->prepare("SELECT * FROM habitacion 
         WHERE tipo_Hab LIKE :tipoHabitacion AND id_hab NOT IN 
         (SELECT id_hab FROM reserva_habitacion WHERE id_reserva IN 
@@ -139,10 +138,7 @@ function obtener_Habitacion($dateEntrada, $dateSalida, $tipoHabitacion){
         $consulta->bindParam(':dateSalida', $dateSalida);
 		$consulta->execute();
         $result = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        /*
-        if (count($result)==0)
-            throw new Exception("No hay habitaciones");
-        */
+
 		return $result; # Si falla, devuelve NULL por defecto
 }
 
@@ -198,13 +194,23 @@ function getAllTipoHabitaciones() {
 
     global $conexion;
 		
-    $consulta = $conexion->prepare("SELECT * FROM tipo_habitacion");
+    $consulta = $conexion->prepare("SELECT * FROM tipo_habitacion order by precio_noche");
 	$consulta->execute();
 	return $consulta->fetchAll(PDO::FETCH_ASSOC); # Si falla, devuelve NULL por defecto
 }
 
+function getAllTipoServicio() {
+
+    global $conexion;
+		
+    $consulta = $conexion->prepare("SELECT * FROM tipo_servicio order by precio_noche");
+	$consulta->execute();
+	return $consulta->fetchAll(PDO::FETCH_ASSOC); # Si falla, devuelve NULL por defecto
+}
+
+
 function mascota_libre($dateEntrada, $dateSalida, $id_mascota){
-    # Función 'relacion_Reserva_Habitacion'. 
+    # Función 'mascota_libre'. 
 	# Parámetros: 
 	# 	- $dateEntrada
     #   - $dateSalida
@@ -233,7 +239,5 @@ function mascota_libre($dateEntrada, $dateSalida, $id_mascota){
             return false;
 		return true; 
 }
-
-
 
 ?>
