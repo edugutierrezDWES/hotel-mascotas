@@ -13,16 +13,21 @@
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">-->
     <link rel="stylesheet" href="../../css/index.css">
     
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> --> <!--Talvez borrar-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
 
-    <script src="../../js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>-->
 
     <script src="../../js/bootstrap-datepicker.min.js"></script>
     <script src="../../js/bootstrap-select.js"></script>
+    <script src="../../js/i18n/defaults-es_ES.js"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>--> 
 
     <script src="../../js/bootstrap-datepicker.es.js" charset="UTF-8"></script> 
@@ -71,10 +76,19 @@
 
             <div class="form-group ">
                 <label for="rol">Tipo de Servicio</label>
-                <select class="form-control" name="tipoReserva">
-                    <option value="normal">Normal</option>
-                    <option value="vip">VIP</option>
-                    <option value="supervip">Super Vip</option>
+                <select class="form-control calcular" name="tipoReserva" id="tipo_servicio">
+                    <?php
+                    $tipoServicio = [
+                        "normal" => "Normal",
+                        "vip" => "VIP",
+                        "supervip" => "Super Vip"
+                    ];
+                    foreach ($arrayTipoServicios as $Fila => $arrayTipo) {
+                        $tipo= $arrayTipo['tipo'];
+                        $precio_noche=$arrayTipo['precio_noche'];
+                        echo "<option value='$tipo'>$tipoServicio[$tipo] : $precio_noche €</option>";
+                    }
+                ?>
                 </select>
             </div>
             <div class="form-group ">
@@ -83,7 +97,7 @@
                     <section class="col">
                         <div class="">
                             <div class='input-group date' id='entrada'>
-                                <input type='text' class="form-control fecha_validacion" id="dato_entrada" name="datoEntrada" autocomplete="off" required/>
+                                <input type='text' class="form-control fecha_validacion calcular" id="dato_entrada" name="datoEntrada" autocomplete="off" required/>
                                 <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -94,7 +108,7 @@
                     <section class="col">
                         <div class="">
                             <div class='input-group date' id='salida'>
-                                <input type='text' class="form-control fecha_validacion" id="dato_salida" name="datoSalida" autocomplete="off" required/>
+                                <input type='text' class="form-control fecha_validacion calcular" id="dato_salida" name="datoSalida" autocomplete="off" required/>
                                 <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -109,10 +123,10 @@
 
             <div class="form-group ">
                 <label for="rol">Tamaño de la Habitacion</label>
-                <select class="form-control" name="tipoHabitacion" id="tipo_Habitacion" >
+                <select class="form-control calcular" name="tipoHabitacion" id="tipo_habitacion" >
                 <?php
                     foreach ($arrayTipoHabitaciones as $Fila => $arrayTipo) {
-                        $tipo_Hab= utf8_encode ($arrayTipo['tipo_Hab']);
+                        $tipo_Hab= $arrayTipo['tipo_Hab'];
                         $precio_noche=$arrayTipo['precio_noche'];
                         $cantidad=$arrayTipo['cantidad'];
                         echo "<option value='$tipo_Hab'>$tipo_Hab : $cantidad -> $precio_noche €</option>";
@@ -134,13 +148,18 @@
                 ?>
                 </select>
             </div>
-
+            <!-- nuevo -->
+            <div class="form-group ">
+                <label for="rol">Precio Total</label>
+                <input type='text' class="form-control" readonly id="precio_total" />
+            </div>
+            <!-- Fin nuevo -->
             <div class="mt-2">
                 <button type="submit" class="btn btn-primary" name="reserva">Crear Reserva</button>
                   <button type="reset" class="btn btn-primary">Limpiar</button>
             </div>
 
-            
+
         </form>
 
     </div> 
@@ -149,48 +168,54 @@
         
         $(function() {
 
+            <?php 
+                $array_servicio_precio = [];
+                foreach ($arrayTipoServicios as $Fila => $arrayTipo) {
+                    $array_servicio_precio[$arrayTipo['tipo']] = $arrayTipo['precio_noche'];
+                }
+            ?>
+            var array_servicio_precio = JSON.parse('<?php echo JSON_encode($array_servicio_precio, JSON_UNESCAPED_UNICODE);?>');
+
+            <?php 
+                $array_Habitacion_Num_Mascotas = [];
+                $array_Habitacion_precio = [];
+                foreach ($arrayTipoHabitaciones as $Fila => $arrayTipo) {
+                    $array_Habitacion_Num_Mascotas[$arrayTipo['tipo_Hab']] = $arrayTipo['cantidad'];
+                    $array_Habitacion_precio[$arrayTipo['tipo_Hab']] = $arrayTipo['precio_noche'];
+                }
+            ?>
+            var array_Habitacion_Num_Mascotas = JSON.parse('<?php echo JSON_encode($array_Habitacion_Num_Mascotas, JSON_UNESCAPED_UNICODE);?>');
+            var array_Habitacion_precio = JSON.parse('<?php echo JSON_encode($array_Habitacion_precio, JSON_UNESCAPED_UNICODE);?>');
+            
+
             $('.date').datepicker({
                 language: 'es',
-                minDate: today
+                minDate: today,
+                autoclose: true
             }).on('change', function() {
-                let dd = $("#dato_entrada").val().slice(0,2);
-                let mm = $("#dato_entrada").val().slice(3,5);
-                let yy = $("#dato_entrada").val().slice(6);
-                let dato_entrada = new Date(yy+"-"+mm+"-"+dd);
-                
-                dd = $("#dato_salida").val().slice(0,2);
-                mm = $("#dato_salida").val().slice(3,5);
-                yy = $("#dato_salida").val().slice(6);
-                let dato_salida = new Date(yy+"-"+mm+"-"+dd);
-                if (today <= dato_entrada && dato_entrada < dato_salida)
-                {
-                    $('.fecha_validacion').removeClass('is-invalid');
-                    $('#error_fechas').removeClass('d-block');
-                    $('.fecha_validacion').addClass('is-valid');
-                }
-                else {
-                    $('.fecha_validacion').removeClass('is-valid');
-                    $('.fecha_validacion').addClass('is-invalid');
-                    $('#error_fechas').addClass('d-block');
-                }
-                
+                Validation_Dates();
             });
+            
+            $('form').on('submit', function(){
+                if(!Validation_Dates())
+                {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } );
             $('select').selectpicker();
-
-        });
-        $(document).ready(function () {
-              
-            $('#tipo_Habitacion').on('change', function (e) {
-                let tipo_Habitacion = $(this).val();
-                <?php 
-                $array_Habitacion = [];
-                    foreach ($arrayTipoHabitaciones as $Fila => $arrayTipo) {
-                        $array_Habitacion[utf8_encode ($arrayTipo['tipo_Hab'])] = $arrayTipo['cantidad'];
-                    }
-                ?>
-                let array_Habitacion = JSON.parse('<?php echo JSON_encode($array_Habitacion);?>');
-
-                var count = parseInt(array_Habitacion[tipo_Habitacion]);
+            
+            Max_Mascota();
+            Precio_Total();
+            //Agregar change  tipo servicio
+            
+            $('#tipo_habitacion').on('change', Max_Mascota);
+            $('.calcular').on('change', Precio_Total);
+            
+            function Max_Mascota(){
+                
+                let tipo_habitacion = $('#tipo_habitacion').val();
+                let count = parseInt(array_Habitacion_Num_Mascotas[tipo_habitacion]);
                 
                 // set limit to SELECT tag
                 if (count > 0) {
@@ -198,60 +223,83 @@
                 }
                 
                 // here you can remove extra values from SELECT
-                var values = $('#mascotas').val(); 
+                let values = $('#mascotas').val(); 
                 if (values.length > count) {
                     // how many items we need to remove
-                    var toRemove = values.length - count;
+                    let toRemove = values.length - count;
                     $('#mascotas option:selected').each(function (index, item) {
                     if (toRemove) {
-                        var option = $(item);
+                        let option = $(item);
                         option.prop('selected', false);
                         toRemove--;
                     }
                     });
                 }
-                
-                // update selectpickers
-                $('.selectpicker').selectpicker('refresh');
-            });
+                // update selectpicker
+                $('#mascotas').selectpicker('refresh');
+            }         
+            function Precio_Total(){
+                if($("#dato_entrada").val() !="" && $("#dato_salida").val() != "" )
+                {
+                    let tipo_servicio = $("#tipo_servicio").val();
+                    let tipo_habitacion = $("#tipo_habitacion").val();
+                    let date_entrada = Formato_YMD($("#dato_entrada").val());
+                    let date_salida = Formato_YMD($("#dato_salida").val());
+                    let today = moment(moment().format('YYYY-MM-DD'));
 
-
-        });
-
-
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                var forms = document.getElementsByClassName('form-horizontal');
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-
-                        let dd = $("#dato_entrada").val().slice(0,2);
-                        let mm = $("#dato_entrada").val().slice(3,5);
-                        let yy = $("#dato_entrada").val().slice(6);
-                        let dato_entrada = new Date(yy+"-"+mm+"-"+dd);
+                    if(today.isSameOrBefore(date_entrada) && date_entrada.isBefore(date_salida)){
+                        let precio_servicio = parseFloat(array_servicio_precio[tipo_servicio]);
+                        let precio_habitacion = parseFloat(array_Habitacion_precio[tipo_habitacion]);
+                        let diffDay = date_salida.diff(date_entrada, 'days');
                         
-                        dd = $("#dato_salida").val().slice(0,2);
-                        mm = $("#dato_salida").val().slice(3,5);
-                        yy = $("#dato_salida").val().slice(6);
-                        let dato_salida = new Date(yy+"-"+mm+"-"+dd);
-                        if (today <= dato_entrada && dato_entrada < dato_salida)
-                        {
-                            $('.fecha_validacion').removeClass('is-invalid');
-                            $('#error_fechas').removeClass('d-block');
-                            $('.fecha_validacion').addClass('is-valid');
-                        }
-                        else {
-                            $('.fecha_validacion').removeClass('is-valid');
-                            $('.fecha_validacion').addClass('is-invalid');
-                            $('#error_fechas').addClass('d-block');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    }, false);
-                });
-            }, false);
-        })();
+                        let total = ((precio_servicio + precio_habitacion) * diffDay).toFixed(2);
+                        $("#precio_total").val(total +" €");
+                    }
+                    else $("#precio_total").val("0.00 €");
+                    
+                }
+                else $("#precio_total").val("0.00 €");
+                
+            }
+            function Validation_Dates(){
+                let date_entrada = Formato_YMD($("#dato_entrada").val());
+                let date_salida = Formato_YMD($("#dato_salida").val());
+                let today = moment(moment().format('YYYY-MM-DD'));
+                if(!today.isSameOrBefore(date_entrada))
+                {
+                    $('#dato_entrada').removeClass('is-valid');
+                    $('#dato_entrada').addClass('is-invalid');
+                } else if(today.isSameOrBefore(date_entrada))
+                {
+                    $('#dato_entrada').removeClass('is-invalid');
+                    $('#dato_entrada').addClass('is-valid');
+                }
+                if(!date_entrada.isBefore(date_salida))
+                {
+                    $('#dato_salida').removeClass('is-valid');
+                    $('#dato_salida').addClass('is-invalid');
+                } else if(date_entrada.isBefore(date_salida))
+                {
+                    $('#dato_salida').removeClass('is-invalid');  
+                    $('#dato_salida').addClass('is-valid');
+                }
+                if(!(today.isSameOrBefore(date_entrada) && date_entrada.isBefore(date_salida)))
+                {
+                    $('#error_fechas').addClass('d-block');
+                    return false;
+                }
+                else{
+                    $('#error_fechas').removeClass('d-block');
+                    return true;
+                }
+            }
+            function Formato_YMD(date){
+                let dd = date.slice(0,2);
+                let mm = date.slice(3,5);
+                let yy = date.slice(6);
+                return moment(yy+"-"+mm+"-"+dd, 'YYYY-MM-DD');
+            }
+        });
 
     </script>
     
